@@ -2,12 +2,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:get/get.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../main.dart';
 import 'CameraView.dart';
-
 
 // late List<CameraDescription> cameras;
 
@@ -36,7 +33,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
   void dispose() async {
     super.dispose();
     _cameraController.dispose();
- //   await _stopWatchTimer.dispose();
+    //   await _stopWatchTimer.dispose();
   }
 
   @override
@@ -45,7 +42,18 @@ class _VideoCallPageState extends State<VideoCallPage> {
     //   return Container();
     // }
     return Scaffold(
-      appBar: AppBar(title: Text('WebRTC')),
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 190, 73, 233),
+        title: Text(
+          'Habibur Rahman',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 14.0,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+
       // appBar: AppBar(
       //   backgroundColor: Colors.transparent,
       //   actions: [
@@ -88,28 +96,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
               }
             },
           ),
-          Positioned(
-              top: 50.0,
-              left: 0,
-              right: 0,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 15,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: Icon(Icons.arrow_back_ios)),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                     'Nahid',style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),
-                  ),
-                ],
-              )),
+
           // if (isRecoring)
           // Positioned(
           //   top: 80.0,
@@ -148,11 +135,11 @@ class _VideoCallPageState extends State<VideoCallPage> {
           // ),
 
           Positioned(
-            top: 140.0,
-            right: 10,
+            top: 35.0,
+            right: 15,
             child: Container(
-              height: 220,
-              width: 180,
+              height: 200,
+              width: 160,
               decoration: BoxDecoration(
                   // color: Colors.black.withOpacity(.5),
                   borderRadius: BorderRadius.circular(8),
@@ -167,7 +154,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
             ),
           ),
           Positioned(
-            bottom: 100.0,
+            bottom: 70.0,
             left: 0,
             right: 0,
             child: Padding(
@@ -177,7 +164,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
                 height: 60,
                 width: Get.width,
                 decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(.5),
+                    color: Colors.black.withOpacity(.6),
                     borderRadius: BorderRadius.circular(50),
                     border: Border.all(
                       width: 1,
@@ -188,7 +175,11 @@ class _VideoCallPageState extends State<VideoCallPage> {
                   children: [
                     ElevatedButton(
                       onPressed: () {},
-                      child: Icon(Icons.video_call, color: Colors.white),
+                      child: Icon(
+                        Icons.video_call,
+                        color: Colors.white,
+                        size: 30,
+                      ),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color?>(
                             Colors.transparent),
@@ -199,7 +190,11 @@ class _VideoCallPageState extends State<VideoCallPage> {
                     ),
                     ElevatedButton(
                       onPressed: () {},
-                      child: Icon(Icons.mic, color: Colors.white),
+                      child: Icon(
+                        Icons.mic,
+                        color: Colors.white,
+                        size: 30,
+                      ),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color?>(
                             Colors.transparent),
@@ -210,7 +205,11 @@ class _VideoCallPageState extends State<VideoCallPage> {
                     ),
                     ElevatedButton(
                       onPressed: () {},
-                      child: Icon(Icons.image_sharp, color: Colors.white),
+                      child: Icon(
+                        Icons.image_sharp,
+                        color: Colors.white,
+                        size: 25,
+                      ),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color?>(
                             Colors.transparent),
@@ -232,8 +231,11 @@ class _VideoCallPageState extends State<VideoCallPage> {
                         );
                         cameraValue = _cameraController.initialize();
                       },
-                      child: Icon(Icons.flip_camera_ios_rounded,
-                          color: Colors.white),
+                      child: Icon(
+                        Icons.flip_camera_ios_rounded,
+                        color: Colors.white,
+                        size: 25,
+                      ),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color?>(
                             Colors.transparent),
@@ -244,7 +246,11 @@ class _VideoCallPageState extends State<VideoCallPage> {
                     ),
                     ElevatedButton(
                       onPressed: () {},
-                      child: Icon(Icons.call, color: Colors.white),
+                      child: Icon(
+                        Icons.call,
+                        color: Colors.white,
+                        size: 25,
+                      ),
                       style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color?>(Colors.redAccent),

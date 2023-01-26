@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'page/call_page.dart';
+import 'page/home_page.dart';
 
 late List<CameraDescription> cameras;
 
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: CallPage(),
+      home: HomePage(),
     );
   }
 }

@@ -1,9 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-
-
 
 class VideoViewPage extends StatefulWidget {
   final String path;
@@ -70,9 +67,9 @@ class _VideoViewPageState extends State<VideoViewPage> {
               height: MediaQuery.of(context).size.height - 150,
               child: _controller!.value.initialized
                   ? AspectRatio(
-                aspectRatio: _controller!.value.aspectRatio,
-                child: VideoPlayer(_controller!),
-              )
+                      aspectRatio: _controller!.value.aspectRatio,
+                      child: VideoPlayer(_controller!),
+                    )
                   : Container(),
             ),
             Positioned(
@@ -118,7 +115,6 @@ class _VideoViewPageState extends State<VideoViewPage> {
                       children: [
                         Text(
                           '0.22 . 5.0 MB',
-
                         ),
                       ],
                     ),
