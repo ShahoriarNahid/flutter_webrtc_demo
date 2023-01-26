@@ -4,6 +4,7 @@ import 'package:flutter_webrtc_demo/page/video_call_page.dart';
 import 'package:get/get.dart';
 
 import '../controller/socket_service.dart';
+import '../helper/Chat.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -39,15 +40,40 @@ class _HomePageState extends State<HomePage> {
             ListView.builder(
               shrinkWrap: true,
               primary: false,
-              itemCount: 20,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text('hhhhhh'),
-                  onTap: () {},
-                  dense: true,
-                );
-              },
+              padding: EdgeInsets.only(top: 12),
+              itemCount: chatsData.length + 1,
+              itemBuilder: ((context, index) => (index != chatsData.length)
+                  ? ChatCard(chat: chatsData[index], press: () {}
+                      //  => Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => InboxScreen()),
+                      // ),
+                      )
+                  : Padding(
+                      padding: EdgeInsets.only(top: 12, bottom: 12 * 5),
+                      child: Text(
+                        'Tap and hold on a chat for more options',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                          color: Color.fromARGB(255, 0, 93, 75),
+                        ),
+                      ),
+                    )),
             ),
+            // ListView.builder(
+            //   shrinkWrap: true,
+            //   primary: false,
+            //   itemCount: 20,
+            //   itemBuilder: (BuildContext context, int index) {
+            //     return ListTile(
+            //       title: Text('hhhhhh'),
+            //       onTap: () {},
+            //       dense: true,
+            //     );
+            //   },
+            // ),
             // TextField(
             //   onChanged: socketS.userName,
             // ),
@@ -111,6 +137,172 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+    );
+  }
+}
+
+//-----//
+
+class ChatCard extends StatelessWidget {
+  const ChatCard({
+    Key? key,
+    required this.chat,
+    required this.press,
+  }) : super(key: key);
+
+  final Chat chat;
+  final VoidCallback press;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    // return CartWidget(chat: chat, isDarkMode: isDarkMode);
+    return ListTile(
+      onTap: () {
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => ChatScreen(
+        //       image: chat.image,
+        //       name: chat.name,
+        //       status: chat.isActive,
+        //       chat: chat,
+        //     ),
+        //   ),
+        // );
+      },
+      onLongPress: () {
+        print('object');
+      },
+      contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+      leading: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            // BoxShadow(
+            //   color: Colors.grey.withOpacity(.5),
+            //   blurRadius: 5.0,
+            //   spreadRadius: 1,
+            //   offset: Offset(0.0, 0.0),
+            // )
+          ],
+          // borderRadius: BorderRadius.circular(100),
+          // border: Border.all(
+          //   width: 1,
+          //   color: Colors.white,
+          // ),
+        ),
+        child: CircleAvatar(
+          radius: 26,
+          backgroundImage: AssetImage(
+            chat.image,
+          ),
+        ),
+      ),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Text(
+                  chat.name,
+                  // fontWeight: FontWeight.w600,
+                  // maxLines: 2,
+                  // color: isDarkMode ? Colors.white : Colors.black87,
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Opacity(
+                opacity: 0.5,
+                child: Text(
+                  chat.time,
+                  // fontSize: 12,
+                  // // color: isDarkMode ? Colors.white : Colors.black87,
+                  // color: chat.msgTotal == 0
+                  //     ? Colors.white
+                  //     : isDarkMode
+                  //         ? Color.fromARGB(255, 0, 93, 75)
+                  //         : Color.fromARGB(255, 0, 93, 75) ,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 3),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    if (chat.isSeen == true && chat.msgTotal == 0)
+                      Icon(
+                        Icons.done_all_sharp,
+                        color: Color.fromARGB(255, 0, 93, 75),
+                        size: 18,
+                      )
+                    else if (chat.isSeen == false && chat.msgTotal > 0)
+                      Icon(
+                        Icons.done_all_sharp,
+                        color: Color.fromARGB(255, 0, 93, 75),
+                        size: 18,
+                      )
+                    else if (chat.isSeen == false && chat.msgTotal == 0)
+                      Icon(
+                        Icons.done_all_sharp,
+                        color: Color.fromARGB(255, 0, 93, 75),
+                        size: 18,
+                      ),
+                    Expanded(
+                      child: Opacity(
+                        opacity: 0.6,
+                        child: Text(
+                          ' ${chat.lastMessage}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                children: [
+                  SizedBox(width: 2),
+                  Icon(Icons.volume_off_rounded),
+                  SizedBox(width: 8),
+                  if (chat.msgTotal != 0)
+                    CircleAvatar(
+                      radius: 10,
+                      backgroundColor: isDarkMode
+                          ? Color.fromARGB(255, 0, 93, 75)
+                          : Color.fromARGB(255, 0, 93, 75),
+                      child: Padding(
+                        padding: const EdgeInsets.all(1.0),
+                        child: Text(
+                          chat.msgTotal.toString() + 0.toString(),
+                          style: TextStyle(fontSize: 10),
+                          // fontSize: 10,
+                          // color: Color.fromARGB(255, 0, 93, 75) ,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+      // trailing: KText(text: '11/11/2022'),
+      dense: true,
+      enabled: true,
+      autofocus: true,
+      // focusColor: hexToColor('#F3F3F3'),
+      // hoverColor: hexToColor('#F3F3F3'),
+      // selectedColor: hexToColor('#F3F3F3'),
     );
   }
 }
