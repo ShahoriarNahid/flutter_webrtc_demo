@@ -19,11 +19,28 @@ class _CallPageState extends State<CallPage> {
       ),
       body: Column(
         children: [
+          SizedBox(
+            height: 40,
+          ),
+          TextField(
+            onChanged: socketS.userName,
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          TextField(onChanged: socketS.room),
+          SizedBox(
+            height: 40,
+          ),
           Center(
             child: ElevatedButton(
-              onPressed: () {
-                //   socketS.initializeSocket();
-                Get.to(VideoCallPage());
+              onPressed: () async {
+                if (socketS.userName.value.isNotEmpty &&
+                    socketS.room.value.isNotEmpty) {
+                  socketS.initializeSocket();
+                }
+
+                //  await Get.to(VideoCallPage());
               },
               child: Text('Call'),
             ),
