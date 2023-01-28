@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:flutter_webrtc_demo/page/audio_call_page.dart';
+import 'package:flutter_webrtc_demo/page/r_history.dart';
 import 'package:flutter_webrtc_demo/page/video_call_page.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   late int currentIndex;
   @override
   Widget build(BuildContext context) {
+    socketS.initializeSocket();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 190, 73, 233),
@@ -37,6 +40,29 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             SizedBox(height: 20),
+            SizedBox(
+              height: 210,
+              child: Row(children: [
+                Flexible(
+                  child: Container(
+                    key: const Key('local'),
+                    margin: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
+                    decoration: const BoxDecoration(color: Colors.black),
+                    child: RTCVideoView(socketS.localRenderer),
+                  ),
+                ),
+                Flexible(
+                  child: Container(
+                    key: const Key('remote'),
+                    margin: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
+                    decoration: const BoxDecoration(color: Colors.black),
+                    child: RTCVideoView(socketS.remoteRenderer),
+                  ),
+                ),
+              ]),
+            ),
+            SizedBox(height: 20),
+
             ListView.builder(
               shrinkWrap: true,
               primary: false,
@@ -116,6 +142,8 @@ class _HomePageState extends State<HomePage> {
             Get.to(() => AudioCallPage());
           } else if (currentIndex == 2) {
             Get.to(() => VideoCallPage());
+          } else if (currentIndex == 3) {
+            Get.to(() => RHistoryPage());
           }
         },
         items: [

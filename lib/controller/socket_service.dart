@@ -28,7 +28,8 @@ class SocketService extends Get.GetxService {
   MediaStream? _localStream;
   final pcConfig = Get.Rx<PcConfigModel?>(null);
   final peerConnections = Map<String, RTCPeerConnection>();
-  final _remoteRenderer = RTCVideoRenderer();
+  final remoteRenderer = RTCVideoRenderer();
+  final localRenderer = RTCVideoRenderer();
 
   final SIGNALING_SERVER_URL = 'https://signaling.thecitizen.support:9443';
 
@@ -73,23 +74,39 @@ class SocketService extends Get.GetxService {
   }
 
   @override
-  void onInit() {
+  void onInit() async {
+    await initRenderer();
     // initializeSocket();
     super.onInit();
+  }
+
+  initRenderer() async {
+    await localRenderer.initialize();
+    await remoteRenderer.initialize();
+    // final _localStream =
+    //     await navigator.mediaDevices.getUserMedia(mediaConstraints);
+
+    // // mediaDevicesList = await navigator.mediaDevices.enumerateDevices();
+    // localRenderer.srcObject = _localStream;
   }
 
   void initializeSocket() {
     socket = io(
         SIGNALING_SERVER_URL,
         OptionBuilder()
-            .setQuery({'user': '${userName.value}', 'room': '${room.value}'})
+            .setQuery({'user': 'nahid', 'room': '1234'})
             .setTransports(['websocket'])
             .disableAutoConnect()
             .build());
 
+//     .setQuery({'user': '${userName.value}', 'room': '${room.value}'})
+
     // Connect event
-    socket.onConnect((_) {
+    socket.onConnect((_) async {
       kLog('Socket connected: ${socket.id}');
+
+      // localRenderer.srcObject =
+      //     await navigator.mediaDevices.getUserMedia(mediaConstraints);
     });
 
     //On ready
@@ -159,12 +176,18 @@ class SocketService extends Get.GetxService {
           'data': {'type': 'ice-candidate', 'candidate': candidate.toMap()}
         });
       };
-      peerConnection.onTrack = (RTCTrackEvent event) {
-        kLog('Track received from : $id');
-        if (event.track.kind == 'video') {
-          _remoteRenderer.srcObject = event.streams[0];
-        }
+
+      peerConnection.onAddStream = (stream) {
+        kLog('addStream: ' + stream.id);
+        remoteRenderer.srcObject = stream;
       };
+      // peerConnection.onTrack = (RTCTrackEvent event) {
+      //   kLog('Track received from : $id');
+      //   kLog('Track received from kind: ${event.track.kind}');
+      //   if (event.track.kind == 'video') {
+      //     remoteRenderer.srcObject = event.streams[1];
+      //   }
+      // };
       peerConnection.onConnectionState = (RTCPeerConnectionState state) {
         // ignore: unrelated_type_equality_checks
         if (state ==
@@ -204,12 +227,14 @@ class SocketService extends Get.GetxService {
   };
 
   void sendOffer(RTCPeerConnection pc, String offerTo) async {
-    _localStream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
+    final _localStream =
+        await navigator.mediaDevices.getUserMedia(mediaConstraints);
 
     // mediaDevicesList = await navigator.mediaDevices.enumerateDevices();
+    localRenderer.srcObject = _localStream;
 
-    _localStream!.getTracks().forEach((track) async {
-      await pc.addTrack(track, _localStream!);
+    _localStream.getTracks().forEach((track) async {
+      await pc.addTrack(track, _localStream);
     });
 
     var offer = await pc.createOffer(offerSdpConstraints);
@@ -221,22 +246,31 @@ class SocketService extends Get.GetxService {
   }
 
   void sendAnswer(RTCPeerConnection pc, String answerTo, Map data) async {
-    await pc.setRemoteDescription(
-        RTCSessionDescription(data['sdp'].toString(), data['type'].toString()));
-    final localStream =
-        await navigator.mediaDevices.getUserMedia(mediaConstraints);
-    localStream.getTracks().forEach((track) async {
-      await pc.addTrack(track, localStream);
-      final answer = await pc.createAnswer();
-      await pc.setLocalDescription(answer);
-      var localDescription = await pc.getLocalDescription();
-      socket.emit('data', {
-        'from': socket.id,
-        'to': answerTo,
-        'data': localDescription?.toMap(),
+    try {
+      await pc.setRemoteDescription(RTCSessionDescription(
+          data['sdp'].toString(), data['type'].toString()));
+      final localStream =
+          await navigator.mediaDevices.getUserMedia(mediaConstraints);
+      localStream.getTracks().forEach((track) async {
+        await pc.addTrack(track, localStream);
+        final answer = await pc.createAnswer();
+        kLog('connection state ${pc.connectionState}');
+        if (pc.connectionState !=
+            RTCPeerConnectionState.RTCPeerConnectionStateConnected) {
+          await pc.setLocalDescription(answer);
+        }
+
+        var localDescription = await pc.getLocalDescription();
+        socket.emit('data', {
+          'from': socket.id,
+          'to': answerTo,
+          'data': localDescription?.toMap(),
+        });
+        kLog('Answer sent to : $answerTo');
       });
-      kLog('Answer sent to : $answerTo');
-    });
+    } catch (e) {
+      kLog(e);
+    }
   }
 
   handleSignalingData(sigData) async {
