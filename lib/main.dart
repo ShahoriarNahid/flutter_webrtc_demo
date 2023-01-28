@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc_demo/page/r_history.dart';
+import 'package:flutter_webrtc_demo/page/ringing_page.dart';
 import 'package:get/get.dart';
 import 'page/home_page.dart';
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: RingingPage(),
     );
   }
 }

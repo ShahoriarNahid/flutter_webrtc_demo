@@ -94,7 +94,8 @@ class SocketService extends Get.GetxService {
     socket = io(
         SIGNALING_SERVER_URL,
         OptionBuilder()
-            .setQuery({'user': 'nahid', 'room': '1234'})
+            .setQuery({'user': '${userName.value}', 'room': '${room.value}'})
+            //.setQuery({'user': 'nahid', 'room': '1234'})
             .setTransports(['websocket'])
             .disableAutoConnect()
             .build());
