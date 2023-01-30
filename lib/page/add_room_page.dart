@@ -33,7 +33,7 @@ class AddRoomPage extends StatelessWidget {
           inputField(
             hintText: 'Room name',
             onChanged: (value) {
-              value = socketS.userName.value;
+              value = socketS.room.value;
             },
           ),
           SizedBox(
