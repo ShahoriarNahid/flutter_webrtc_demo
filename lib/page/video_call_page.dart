@@ -1,8 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:get/get.dart';
 
+import '../controller/socket_service.dart';
 import '../main.dart';
 import 'CameraView.dart';
 
@@ -25,22 +27,24 @@ class _VideoCallPageState extends State<VideoCallPage> {
   @override
   void initState() {
     super.initState();
-    _cameraController = CameraController(cameras[0], ResolutionPreset.high);
-    cameraValue = _cameraController.initialize();
+    // _cameraController = CameraController(cameras[0], ResolutionPreset.high);
+    // cameraValue = _cameraController.initialize();
   }
 
   @override
   void dispose() async {
     super.dispose();
-    _cameraController.dispose();
+    //  _cameraController.dispose();
     //   await _stopWatchTimer.dispose();
   }
 
+  final socketS = Get.put(SocketService());
   @override
   Widget build(BuildContext context) {
     // if (!_cameraController.value.isInitialized) {
     //   return Container();
     // }
+    socketS.initializeSocket();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 190, 73, 233),
@@ -78,24 +82,31 @@ class _VideoCallPageState extends State<VideoCallPage> {
       // ),
       body: Stack(
         children: [
-          FutureBuilder(
-            future: cameraValue,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: CameraPreview(_cameraController),
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
-                );
-              }
-            },
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            // child: CameraPreview(_cameraController),
+            child: RTCVideoView(socketS.remoteRenderer),
           ),
+          // FutureBuilder(
+          //   future: cameraValue,
+          //   builder: (context, snapshot) {
+          //     //  if (snapshot.connectionState == ConnectionState.done) {
+          //     return Container(
+          //       width: MediaQuery.of(context).size.width,
+          //       height: MediaQuery.of(context).size.height,
+          //       // child: CameraPreview(_cameraController),
+          //       child: RTCVideoView(socketS.remoteRenderer),
+          //     );
+          //     // } else {
+          //     //   return Center(
+          //     //     child: CircularProgressIndicator(
+          //     //       color: Colors.white,
+          //     //     ),
+          //     //   );
+          //     // }
+          //   },
+          // ),
 
           // if (isRecoring)
           // Positioned(
@@ -145,11 +156,12 @@ class _VideoCallPageState extends State<VideoCallPage> {
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
                     width: 1,
-                    color: Colors.white,
+                    color: Colors.black,
                   )),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: CameraPreview(_cameraController),
+                // child: CameraPreview(_cameraController),
+                child: RTCVideoView(socketS.localRenderer),
               ),
             ),
           ),
@@ -189,7 +201,9 @@ class _VideoCallPageState extends State<VideoCallPage> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        socketS.initializeSocket();
+                      },
                       child: Icon(
                         Icons.mic,
                         color: Colors.white,

@@ -19,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     socketS.initializeSocket();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 190, 73, 233),
@@ -35,137 +36,221 @@ class _HomePageState extends State<HomePage> {
           SizedBox(height: 10),
         ],
       ),
-      drawer: Drawer(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 20),
-            SizedBox(
-              height: 210,
-              child: Row(children: [
-                Flexible(
-                  child: Container(
-                    key: const Key('local'),
-                    margin: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
-                    decoration: const BoxDecoration(color: Colors.black),
-                    child: RTCVideoView(socketS.localRenderer),
-                  ),
+      body: OrientationBuilder(builder: (context, orientation) {
+        return Stack(children: <Widget>[
+          Positioned(
+              left: 0.0,
+              right: 0.0,
+              top: 0.0,
+              bottom: 0.0,
+              child: Container(
+                margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: RTCVideoView(
+                  socketS.remoteRenderer,
                 ),
-                Flexible(
-                  child: Container(
-                    key: const Key('remote'),
-                    margin: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
-                    decoration: const BoxDecoration(color: Colors.black),
-                    child: RTCVideoView(socketS.remoteRenderer),
-                  ),
+                decoration: BoxDecoration(color: Colors.black54),
+              )),
+          Positioned(
+            left: 20.0,
+            top: 20.0,
+            child: Container(
+              width: orientation == Orientation.portrait ? 90.0 : 120.0,
+              height: orientation == Orientation.portrait ? 120.0 : 90.0,
+              child: RTCVideoView(
+                socketS.localRenderer,
+                mirror: true,
+              ),
+              decoration: BoxDecoration(color: Colors.black54),
+            ),
+          ),
+        ]);
+      }),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: SizedBox(
+          width: 240.0,
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                FloatingActionButton(
+                  heroTag: 'btn1',
+                  child: const Icon(Icons.switch_camera),
+                  tooltip: 'Camera',
+                  onPressed: () {},
                 ),
-              ]),
-            ),
-            SizedBox(height: 20),
-
-            ListView.builder(
-              shrinkWrap: true,
-              primary: false,
-              padding: EdgeInsets.only(top: 12),
-              itemCount: chatsData.length + 1,
-              itemBuilder: ((context, index) => (index != chatsData.length)
-                  ? ChatCard(chat: chatsData[index], press: () {}
-                      //  => Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => InboxScreen()),
-                      // ),
-                      )
-                  : Padding(
-                      padding: EdgeInsets.only(top: 12, bottom: 12 * 5),
-                      child: Text(
-                        'Tap and hold on a chat for more options',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 12,
-                          color: Color.fromARGB(255, 0, 93, 75),
-                        ),
-                      ),
-                    )),
-            ),
-            // ListView.builder(
-            //   shrinkWrap: true,
-            //   primary: false,
-            //   itemCount: 20,
-            //   itemBuilder: (BuildContext context, int index) {
-            //     return ListTile(
-            //       title: Text('hhhhhh'),
-            //       onTap: () {},
-            //       dense: true,
-            //     );
-            //   },
-            // ),
-            // TextField(
-            //   onChanged: socketS.userName,
-            // ),
-            // SizedBox(
-            //   height: 40,
-            // ),
-            // TextField(onChanged: socketS.room),
-            // SizedBox(
-            //   height: 40,
-            // ),
-            // Center(
-            //   child: ElevatedButton(
-            //     onPressed: () async {
-            //       if (socketS.userName.value.isNotEmpty &&
-            //           socketS.room.value.isNotEmpty) {
-            //         socketS.initializeSocket();
-            //       }
-
-            //       //  await Get.to(VideoCallPage());
-            //     },
-            //     child: Text('Call'),
-            //   ),
-            // ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Color.fromARGB(255, 190, 73, 233),
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white.withOpacity(.60),
-        selectedFontSize: 14,
-        unselectedFontSize: 14,
-        onTap: (int value) {
-          setState(() {
-            currentIndex = value;
-          });
-          print(currentIndex);
-          if (currentIndex == 1) {
-            Get.to(() => AudioCallPage());
-          } else if (currentIndex == 2) {
-            Get.to(() => VideoCallPage());
-          } else if (currentIndex == 3) {
-            Get.to(() => RHistoryPage());
-          }
-        },
-        items: [
-          BottomNavigationBarItem(
-            label: 'Chats',
-            icon: Icon(Icons.chat_rounded),
-          ),
-          BottomNavigationBarItem(
-            label: 'Calls',
-            icon: Icon(Icons.videocam_rounded),
-          ),
-          BottomNavigationBarItem(
-            label: 'People',
-            icon: Icon(Icons.people_rounded),
-          ),
-          BottomNavigationBarItem(
-            label: 'Group',
-            icon: Icon(Icons.group_add_rounded),
-          ),
-        ],
-      ),
+                // FloatingActionButton(
+                //   child: const Icon(Icons.desktop_mac),
+                //   tooltip: 'Screen Sharing',
+                //   onPressed: () {},
+                // ),
+                FloatingActionButton(
+                  heroTag: 'btn2',
+                  onPressed: () {},
+                  tooltip: 'Hangup',
+                  child: Icon(Icons.call_end),
+                  backgroundColor: Colors.pink,
+                ),
+                FloatingActionButton(
+                  heroTag: 'btn3',
+                  child: const Icon(Icons.mic_off),
+                  tooltip: 'Mute Mic',
+                  onPressed: () {
+                    socketS.initializeSocket();
+                  },
+                )
+              ])),
     );
+
+    // return Scaffold(
+    //   appBar: AppBar(
+    //     backgroundColor: Color.fromARGB(255, 190, 73, 233),
+    //     title: Text('WeabRTC'),
+    //     actions: [
+    //       IconButton(
+    //         onPressed: () {},
+    //         icon: Icon(Icons.group_add_rounded),
+    //       ),
+    //       IconButton(
+    //         onPressed: () {},
+    //         icon: Icon(Icons.more_horiz),
+    //       ),
+    //       SizedBox(height: 10),
+    //     ],
+    //   ),
+    //   drawer: Drawer(),
+    //   body: SingleChildScrollView(
+    //     child: Column(
+    //       children: [
+    //         SizedBox(height: 20),
+    //         SizedBox(
+    //           height: 600,
+    //           width: Get.width,
+    //           child: Column(children: [
+    //             Flexible(
+    //               child: Container(
+    //                 key: const Key('local'),
+    //                 margin: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
+    //                 decoration: const BoxDecoration(color: Colors.black),
+    //                 child: RTCVideoView(socketS.localRenderer),
+    //               ),
+    //             ),
+    //             Flexible(
+    //               child: Container(
+    //                 key: const Key('remote'),
+    //                 margin: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
+    //                 decoration: const BoxDecoration(color: Colors.black),
+    //                 child: RTCVideoView(socketS.remoteRenderer),
+    //               ),
+    //             ),
+    //           ]),
+    //         ),
+    //         SizedBox(height: 20),
+
+    //         // ListView.builder(
+    //         //   shrinkWrap: true,
+    //         //   primary: false,
+    //         //   padding: EdgeInsets.only(top: 12),
+    //         //   itemCount: chatsData.length + 1,
+    //         //   itemBuilder: ((context, index) => (index != chatsData.length)
+    //         //       ? ChatCard(chat: chatsData[index], press: () {}
+    //         //           //  => Navigator.push(
+    //         //           //   context,
+    //         //           //   MaterialPageRoute(builder: (context) => InboxScreen()),
+    //         //           // ),
+    //         //           )
+    //         //       : Padding(
+    //         //           padding: EdgeInsets.only(top: 12, bottom: 12 * 5),
+    //         //           child: Text(
+    //         //             'Tap and hold on a chat for more options',
+    //         //             textAlign: TextAlign.center,
+    //         //             style: TextStyle(
+    //         //               fontWeight: FontWeight.w700,
+    //         //               fontSize: 12,
+    //         //               color: Color.fromARGB(255, 0, 93, 75),
+    //         //             ),
+    //         //           ),
+    //         //         )),
+    //         // ),
+
+    //         // ListView.builder(
+    //         //   shrinkWrap: true,
+    //         //   primary: false,
+    //         //   itemCount: 20,
+    //         //   itemBuilder: (BuildContext context, int index) {
+    //         //     return ListTile(
+    //         //       title: Text('hhhhhh'),
+    //         //       onTap: () {},
+    //         //       dense: true,
+    //         //     );
+    //         //   },
+    //         // ),
+    //         // TextField(
+    //         //   onChanged: socketS.userName,
+    //         // ),
+    //         // SizedBox(
+    //         //   height: 40,
+    //         // ),
+    //         // TextField(onChanged: socketS.room),
+    //         // SizedBox(
+    //         //   height: 40,
+    //         // ),
+    //         // Center(
+    //         //   child: ElevatedButton(
+    //         //     onPressed: () async {
+    //         //       if (socketS.userName.value.isNotEmpty &&
+    //         //           socketS.room.value.isNotEmpty) {
+    //         //         socketS.initializeSocket();
+    //         //       }
+
+    //         //       //  await Get.to(VideoCallPage());
+    //         //     },
+    //         //     child: Text('Call'),
+    //         //   ),
+    //         // ),
+    //       ],
+    //     ),
+    //   ),
+    //   bottomNavigationBar: BottomNavigationBar(
+    //     type: BottomNavigationBarType.fixed,
+    //     backgroundColor: Color.fromARGB(255, 190, 73, 233),
+    //     selectedItemColor: Colors.white,
+    //     unselectedItemColor: Colors.white.withOpacity(.60),
+    //     selectedFontSize: 14,
+    //     unselectedFontSize: 14,
+    //     onTap: (int value) {
+    //       setState(() {
+    //         currentIndex = value;
+    //       });
+    //       print(currentIndex);
+    //       if (currentIndex == 1) {
+    //         Get.to(() => AudioCallPage());
+    //       } else if (currentIndex == 2) {
+    //         Get.to(() => VideoCallPage());
+    //       } else if (currentIndex == 3) {
+    //         Get.to(() => RHistoryPage());
+    //       }
+    //     },
+    //     items: [
+    //       BottomNavigationBarItem(
+    //         label: 'Chats',
+    //         icon: Icon(Icons.chat_rounded),
+    //       ),
+    //       BottomNavigationBarItem(
+    //         label: 'Calls',
+    //         icon: Icon(Icons.videocam_rounded),
+    //       ),
+    //       BottomNavigationBarItem(
+    //         label: 'People',
+    //         icon: Icon(Icons.people_rounded),
+    //       ),
+    //       BottomNavigationBarItem(
+    //         label: 'Group',
+    //         icon: Icon(Icons.group_add_rounded),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }
 

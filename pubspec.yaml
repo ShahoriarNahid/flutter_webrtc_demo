@@ -44,9 +44,10 @@ dependencies:
   shared_preferences:
   http:
   camera:
-  video_player:
+  # video_player:
   flutter_webrtc: ^0.9.11
   dio:
+
 
 dev_dependencies:
   flutter_test:
