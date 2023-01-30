@@ -25,7 +25,7 @@ class AddRoomPage extends StatelessWidget {
           inputField(
               hintText: 'User name',
               onChanged: (value) {
-                value = socketS.userName.value;
+                socketS.userName.value = value;
               }),
           SizedBox(
             height: 15,
@@ -33,7 +33,7 @@ class AddRoomPage extends StatelessWidget {
           inputField(
             hintText: 'Room name',
             onChanged: (value) {
-              value = socketS.room.value;
+              socketS.room.value = value;
             },
           ),
           SizedBox(
