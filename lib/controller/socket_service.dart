@@ -83,11 +83,9 @@ class SocketService extends Get.GetxService {
   initRenderer() async {
     await localRenderer.initialize();
     await remoteRenderer.initialize();
-    // final _localStream =
-    //     await navigator.mediaDevices.getUserMedia(mediaConstraints);
 
-    // // mediaDevicesList = await navigator.mediaDevices.enumerateDevices();
-    // localRenderer.srcObject = _localStream;
+    // localRenderer.srcObject =
+    //     await navigator.mediaDevices.getUserMedia(mediaConstraints);
   }
 
   void initializeSocket() {
@@ -95,7 +93,7 @@ class SocketService extends Get.GetxService {
         SIGNALING_SERVER_URL,
         OptionBuilder()
             .setQuery({'user': '${userName.value}', 'room': '${room.value}'})
-            //.setQuery({'user': 'nahid', 'room': '1234'})
+            // .setQuery({'user': 'nahid', 'room': '1234'})
             .setTransports(['websocket'])
             .disableAutoConnect()
             .build());

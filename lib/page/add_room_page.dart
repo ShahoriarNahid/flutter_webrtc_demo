@@ -6,9 +6,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_webrtc_demo/page/room_page.dart';
 import 'package:get/get.dart';
 
-class AddRoomPage extends StatelessWidget {
-  const AddRoomPage({super.key});
+import '../controller/socket_service.dart';
 
+class AddRoomPage extends StatelessWidget {
+  final socketS = Get.put(SocketService());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +25,7 @@ class AddRoomPage extends StatelessWidget {
           inputField(
               hintText: 'User name',
               onChanged: (value) {
-                print(value);
+                value = socketS.userName.value;
               }),
           SizedBox(
             height: 15,
@@ -32,7 +33,7 @@ class AddRoomPage extends StatelessWidget {
           inputField(
             hintText: 'Room name',
             onChanged: (value) {
-              print(value);
+              value = socketS.userName.value;
             },
           ),
           SizedBox(

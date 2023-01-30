@@ -12,6 +12,7 @@ class RoomPage extends StatelessWidget {
   final socketS = Get.put(SocketService());
   @override
   Widget build(BuildContext context) {
+    socketS.initializeSocket();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 190, 73, 233),
