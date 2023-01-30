@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 
 import '../controller/socket_service.dart';
 import '../helper/Chat.dart';
+import 'add_room_page.dart';
+import 'video_calling_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -122,30 +124,7 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20),
-            SizedBox(
-              height: 210,
-              width: Get.width,
-              child: Row(children: [
-                Flexible(
-                  child: Container(
-                    key: const Key('local'),
-                    margin: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
-                    decoration: const BoxDecoration(color: Colors.black),
-                    child: RTCVideoView(socketS.localRenderer),
-                  ),
-                ),
-                Flexible(
-                  child: Container(
-                    key: const Key('remote'),
-                    margin: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
-                    decoration: const BoxDecoration(color: Colors.black),
-                    child: RTCVideoView(socketS.remoteRenderer),
-                  ),
-                ),
-              ]),
-            ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             ListView.builder(
               shrinkWrap: true,
               primary: false,
@@ -189,9 +168,9 @@ class _HomePageState extends State<HomePage> {
           if (currentIndex == 1) {
             Get.to(() => AudioCallPage());
           } else if (currentIndex == 2) {
-            Get.to(() => VideoCallPage());
+            Get.to(() => VideoCallingPage());
           } else if (currentIndex == 3) {
-            Get.to(() => RHistoryPage());
+            Get.to(() => AddRoomPage());
           }
         },
         items: [
@@ -200,12 +179,12 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.chat_rounded),
           ),
           BottomNavigationBarItem(
-            label: 'Calls',
-            icon: Icon(Icons.videocam_rounded),
+            label: 'Audio',
+            icon: Icon(Icons.call_rounded),
           ),
           BottomNavigationBarItem(
-            label: 'People',
-            icon: Icon(Icons.people_rounded),
+            label: 'Video',
+            icon: Icon(Icons.videocam_rounded),
           ),
           BottomNavigationBarItem(
             label: 'Group',
