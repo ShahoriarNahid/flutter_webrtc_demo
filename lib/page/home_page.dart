@@ -261,94 +261,115 @@ class ChatCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: Text(
-                  chat.name,
-                  // fontWeight: FontWeight.w600,
-                  // maxLines: 2,
-                  // color: isDarkMode ? Colors.white : Colors.black87,
-                ),
+                child: Text('abc'
+                    // fontWeight: FontWeight.w600,
+                    // maxLines: 2,
+                    // color: isDarkMode ? Colors.white : Colors.black87,
+                    ),
               ),
               SizedBox(
                 width: 5,
               ),
-              Opacity(
-                opacity: 0.5,
-                child: Text(
-                  chat.time,
-                  // fontSize: 12,
-                  // // color: isDarkMode ? Colors.white : Colors.black87,
-                  // color: chat.msgTotal == 0
-                  //     ? Colors.white
-                  //     : isDarkMode
-                  //         ? Color.fromARGB(255, 0, 93, 75)
-                  //         : Color.fromARGB(255, 0, 93, 75) ,
-                ),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Get.to(AudioCallPage());
+                    },
+                    icon: Icon(Icons.call),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Get.to(VideoCallPage());
+                    },
+                    icon: Icon(Icons.video_call),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Get.to(AddRoomPage());
+                    },
+                    icon: Icon(Icons.group),
+                  ),
+                ],
               ),
+              // Opacity(
+              //   opacity: 0.5,
+              //   child: Text(
+              //     chat.time,
+              //     // fontSize: 12,
+              //     // // color: isDarkMode ? Colors.white : Colors.black87,
+              //     // color: chat.msgTotal == 0
+              //     //     ? Colors.white
+              //     //     : isDarkMode
+              //     //         ? Color.fromARGB(255, 0, 93, 75)
+              //     //         : Color.fromARGB(255, 0, 93, 75) ,
+              //   ),
+              // ),
             ],
           ),
           SizedBox(height: 3),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    if (chat.isSeen == true && chat.msgTotal == 0)
-                      Icon(
-                        Icons.done_all_sharp,
-                        color: Color.fromARGB(255, 0, 93, 75),
-                        size: 18,
-                      )
-                    else if (chat.isSeen == false && chat.msgTotal > 0)
-                      Icon(
-                        Icons.done_all_sharp,
-                        color: Color.fromARGB(255, 0, 93, 75),
-                        size: 18,
-                      )
-                    else if (chat.isSeen == false && chat.msgTotal == 0)
-                      Icon(
-                        Icons.done_all_sharp,
-                        color: Color.fromARGB(255, 0, 93, 75),
-                        size: 18,
-                      ),
-                    Expanded(
-                      child: Opacity(
-                        opacity: 0.6,
-                        child: Text(
-                          ' ${chat.lastMessage}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                children: [
-                  SizedBox(width: 2),
-                  Icon(Icons.volume_off_rounded),
-                  SizedBox(width: 8),
-                  if (chat.msgTotal != 0)
-                    CircleAvatar(
-                      radius: 10,
-                      backgroundColor: isDarkMode
-                          ? Color.fromARGB(255, 0, 93, 75)
-                          : Color.fromARGB(255, 0, 93, 75),
-                      child: Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: Text(
-                          chat.msgTotal.toString() + 0.toString(),
-                          style: TextStyle(fontSize: 10),
-                          // fontSize: 10,
-                          // color: Color.fromARGB(255, 0, 93, 75) ,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     Expanded(
+          //       child: Row(
+          //         children: [
+          //           if (chat.isSeen == true && chat.msgTotal == 0)
+          //             Icon(
+          //               Icons.done_all_sharp,
+          //               color: Color.fromARGB(255, 0, 93, 75),
+          //               size: 18,
+          //             )
+          //           else if (chat.isSeen == false && chat.msgTotal > 0)
+          //             Icon(
+          //               Icons.done_all_sharp,
+          //               color: Color.fromARGB(255, 0, 93, 75),
+          //               size: 18,
+          //             )
+          //           else if (chat.isSeen == false && chat.msgTotal == 0)
+          //             Icon(
+          //               Icons.done_all_sharp,
+          //               color: Color.fromARGB(255, 0, 93, 75),
+          //               size: 18,
+          //             ),
+          //           Expanded(
+          //             child: Opacity(
+          //               opacity: 0.6,
+          //               child: Text(
+          //                 ' ${chat.lastMessage}',
+          //                 maxLines: 1,
+          //                 overflow: TextOverflow.ellipsis,
+          //               ),
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //     Row(
+          //       children: [
+          //         SizedBox(width: 2),
+          //         Icon(Icons.volume_off_rounded),
+          //         SizedBox(width: 8),
+          //         if (chat.msgTotal != 0)
+          //           CircleAvatar(
+          //             radius: 10,
+          //             backgroundColor: isDarkMode
+          //                 ? Color.fromARGB(255, 0, 93, 75)
+          //                 : Color.fromARGB(255, 0, 93, 75),
+          //             child: Padding(
+          //               padding: const EdgeInsets.all(1.0),
+          //               child: Text(
+          //                 chat.msgTotal.toString() + 0.toString(),
+          //                 style: TextStyle(fontSize: 10),
+          //                 // fontSize: 10,
+          //                 // color: Color.fromARGB(255, 0, 93, 75) ,
+          //               ),
+          //             ),
+          //           ),
+          //       ],
+          //     ),
+          //   ],
+          // ),
         ],
       ),
       // trailing: KText(text: '11/11/2022'),

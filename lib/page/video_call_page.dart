@@ -17,7 +17,7 @@ class VideoCallPage extends StatefulWidget {
 
 class _VideoCallPageState extends State<VideoCallPage> {
 //  final StopWatchTimer _stopWatchTimer = StopWatchTimer(); // Create instance.
-  late CameraController _cameraController;
+  // late CameraController _cameraController;
   Future<void>? cameraValue;
   bool isRecoring = false;
   bool flash = false;
@@ -44,18 +44,24 @@ class _VideoCallPageState extends State<VideoCallPage> {
     // if (!_cameraController.value.isInitialized) {
     //   return Container();
     // }
-    socketS.initializeSocket();
+    //   socketS.initializeSocket();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 190, 73, 233),
         title: Text(
-          'Habibur Rahman',
+          'Video Call Page',
           style: TextStyle(
             color: Colors.white,
             fontSize: 14.0,
             fontWeight: FontWeight.w600,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.group_add_rounded),
+          ),
+        ],
       ),
 
       // appBar: AppBar(
@@ -232,32 +238,32 @@ class _VideoCallPageState extends State<VideoCallPage> {
                         shape: MaterialStateProperty.all(CircleBorder()),
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        setState(() {
-                          iscamerafront = !iscamerafront;
-                          transform = transform + pi;
-                        });
-                        int cameraPos = iscamerafront ? 0 : 1;
-                        _cameraController = CameraController(
-                          cameras[cameraPos],
-                          ResolutionPreset.high,
-                        );
-                        cameraValue = _cameraController.initialize();
-                      },
-                      child: Icon(
-                        Icons.flip_camera_ios_rounded,
-                        color: Colors.white,
-                        size: 25,
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color?>(
-                            Colors.transparent),
-                        shadowColor: MaterialStateProperty.all<Color>(
-                            Colors.transparent),
-                        shape: MaterialStateProperty.all(CircleBorder()),
-                      ),
-                    ),
+                    // ElevatedButton(
+                    //   onPressed: () async {
+                    //     setState(() {
+                    //       iscamerafront = !iscamerafront;
+                    //       transform = transform + pi;
+                    //     });
+                    //     int cameraPos = iscamerafront ? 0 : 1;
+                    //     _cameraController = CameraController(
+                    //       cameras[cameraPos],
+                    //       ResolutionPreset.high,
+                    //     );
+                    //     cameraValue = _cameraController.initialize();
+                    //   },
+                    //   child: Icon(
+                    //     Icons.flip_camera_ios_rounded,
+                    //     color: Colors.white,
+                    //     size: 25,
+                    //   ),
+                    //   style: ButtonStyle(
+                    //     backgroundColor: MaterialStateProperty.all<Color?>(
+                    //         Colors.transparent),
+                    //     shadowColor: MaterialStateProperty.all<Color>(
+                    //         Colors.transparent),
+                    //     shape: MaterialStateProperty.all(CircleBorder()),
+                    //   ),
+                    // ),
                     ElevatedButton(
                       onPressed: () {},
                       child: Icon(
@@ -385,15 +391,15 @@ class _VideoCallPageState extends State<VideoCallPage> {
     );
   }
 
-  void takePhoto(BuildContext context) async {
-    XFile file = await _cameraController.takePicture();
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (builder) => CameraViewPage(
-          path: file.path,
-        ),
-      ),
-    );
-  }
+  // void takePhoto(BuildContext context) async {
+  //   XFile file = await _cameraController.takePicture();
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (builder) => CameraViewPage(
+  //         path: file.path,
+  //       ),
+  //     ),
+  //   );
+  // }
 }
