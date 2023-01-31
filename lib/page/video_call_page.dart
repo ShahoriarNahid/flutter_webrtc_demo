@@ -2,15 +2,20 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:flutter_webrtc_demo/model/userList_model.dart';
 import 'package:get/get.dart';
 
 import '../controller/socket_service.dart';
+import '../helper/bottom_sheet.dart';
 import '../main.dart';
 import 'CameraView.dart';
 
 // late List<CameraDescription> cameras;
 
 class VideoCallPage extends StatefulWidget {
+  final UserListModel user;
+
+  const VideoCallPage({super.key, required this.user});
   @override
   _VideoCallPageState createState() => _VideoCallPageState();
 }
@@ -49,7 +54,9 @@ class _VideoCallPageState extends State<VideoCallPage> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 190, 73, 233),
         title: Text(
-          'Video Call Page',
+          widget.user.fullname != ''
+              ? '${widget.user.fullname}'
+              : '${widget.user.username}',
           style: TextStyle(
             color: Colors.white,
             fontSize: 14.0,
@@ -58,7 +65,9 @@ class _VideoCallPageState extends State<VideoCallPage> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              searchLocationBottomSheet();
+            },
             icon: Icon(Icons.group_add_rounded),
           ),
         ],

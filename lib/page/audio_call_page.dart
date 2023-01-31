@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_webrtc_demo/model/userList_model.dart';
 import 'package:get/get.dart';
 
+import '../helper/bottom_sheet.dart';
+
 class AudioCallPage extends StatelessWidget {
-  const AudioCallPage({super.key});
+  final UserListModel user;
+
+  const AudioCallPage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,7 @@ class AudioCallPage extends StatelessWidget {
               backgroundColor: Colors.transparent,
               shadowColor: Colors.transparent,
               title: Text(
-                'Audio Call Page',
+                user.fullname != '' ? '${user.fullname}' : '${user.username}',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 14.0,
@@ -35,7 +40,9 @@ class AudioCallPage extends StatelessWidget {
               ),
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    searchLocationBottomSheet();
+                  },
                   icon: Icon(Icons.group_add_rounded),
                 ),
                 IconButton(
@@ -65,7 +72,9 @@ class AudioCallPage extends StatelessWidget {
                             ),
                             SizedBox(height: 12),
                             Text(
-                              'Habibur Rahman',
+                              user.fullname != ''
+                                  ? '${user.fullname}'
+                                  : '${user.username}',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18.0,

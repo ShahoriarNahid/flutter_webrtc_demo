@@ -6,6 +6,7 @@ import 'package:flutter_webrtc_demo/page/video_call_page.dart';
 import 'package:get/get.dart';
 
 import '../controller/socket_service.dart';
+import '../controller/userlist_controller.dart';
 import '../helper/Chat.dart';
 import 'add_room_page.dart';
 import 'video_calling_page.dart';
@@ -17,10 +18,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final socketS = Get.put(SocketService());
+  final userListC = Get.put(UserListController());
   late int currentIndex;
   @override
   Widget build(BuildContext context) {
     // socketS.initializeSocket();
+    userListC.getUserModelList();
 
     // return Scaffold(
     //   appBar: AppBar(
@@ -121,36 +124,78 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       drawer: Drawer(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 10),
-            ListView.builder(
-              shrinkWrap: true,
-              primary: false,
-              padding: EdgeInsets.only(top: 12),
-              itemCount: chatsData.length + 1,
-              itemBuilder: ((context, index) => (index != chatsData.length)
-                  ? ChatCard(chat: chatsData[index], press: () {}
-                      //  => Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => InboxScreen()),
-                      // ),
-                      )
-                  : Padding(
-                      padding: EdgeInsets.only(top: 12, bottom: 12 * 5),
-                      child: Text(
-                        'Tap and hold on a chat for more options',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 12,
-                          color: Color.fromARGB(255, 0, 93, 75),
+      body: Obx(
+        () => SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 10),
+              ListView.builder(
+                  shrinkWrap: true,
+                  primary: false,
+                  padding: EdgeInsets.only(top: 12),
+                  itemCount: userListC.userListModel.length,
+                  itemBuilder: ((context, index) {
+                    final item = userListC.userListModel[index];
+                    return ListTile(
+                      onTap: () {},
+                      leading: CircleAvatar(
+                        radius: 20,
+                        child: FlutterLogo(),
+                      ),
+                      title: Text(item.fullname != ''
+                          ? '${item.fullname}'
+                          : '${item.username}'),
+                      trailing: Container(
+                        // color: Colors.amber,
+                        width: 105,
+                        child: Row(
+                          children: [
+                            IconButton(
+                              color: Colors.green,
+                              onPressed: () {
+                                Get.to(AudioCallPage(
+                                  user: item,
+                                ));
+                              },
+                              icon: Icon(Icons.call),
+                            ),
+                            SizedBox(width: 5),
+                            IconButton(
+                              color: Colors.red,
+                              onPressed: () {
+                                Get.to(VideoCallPage(user: item));
+                              },
+                              icon: Icon(Icons.video_camera_front),
+                            ),
+                          ],
                         ),
                       ),
-                    )),
-            ),
-          ],
+                    );
+                  }
+                      // => (index != chatsData.length)
+                      // ? ChatCard(
+                      //   chat: chatsData[index], press: () {}
+                      //     //  => Navigator.push(
+                      //     //   context,
+                      //     //   MaterialPageRoute(builder: (context) => InboxScreen()),
+                      //     // ),
+                      //     )
+                      // : Padding(
+                      //     padding: EdgeInsets.only(top: 12, bottom: 12 * 5),
+                      //     child: Text(
+                      //       'Tap and hold on a chat for more options',
+                      //       textAlign: TextAlign.center,
+                      //       style: TextStyle(
+                      //         fontWeight: FontWeight.w700,
+                      //         fontSize: 12,
+                      //         color: Color.fromARGB(255, 0, 93, 75),
+                      //       ),
+                      //     ),
+                      //   )),
+
+                      )),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -166,9 +211,9 @@ class _HomePageState extends State<HomePage> {
           });
           print(currentIndex);
           if (currentIndex == 1) {
-            Get.to(() => AudioCallPage());
+            Get.to(() => null);
           } else if (currentIndex == 2) {
-            Get.to(() => VideoCallingPage());
+            Get.to(() => null);
           } else if (currentIndex == 3) {
             Get.to(() => AddRoomPage());
           }
@@ -274,19 +319,19 @@ class ChatCard extends StatelessWidget {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Get.to(AudioCallPage());
+                      // Get.to(AudioCallPage());
                     },
                     icon: Icon(Icons.call),
                   ),
                   IconButton(
                     onPressed: () {
-                      Get.to(VideoCallPage());
+                      // Get.to(VideoCallPage());
                     },
                     icon: Icon(Icons.video_call),
                   ),
                   IconButton(
                     onPressed: () {
-                      Get.to(AddRoomPage());
+                      // Get.to(AddRoomPage());
                     },
                     icon: Icon(Icons.group),
                   ),
