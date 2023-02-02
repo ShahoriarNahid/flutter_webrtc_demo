@@ -44,7 +44,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
     // if (!_cameraController.value.isInitialized) {
     //   return Container();
     // }
-    //   socketS.initializeSocket();
+    socketS.initializeSocket();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 190, 73, 233),

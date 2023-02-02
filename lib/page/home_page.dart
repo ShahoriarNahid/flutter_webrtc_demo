@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:flutter_webrtc_demo/helper/log.dart';
 import 'package:flutter_webrtc_demo/page/audio_call_page.dart';
 import 'package:flutter_webrtc_demo/page/r_history.dart';
 import 'package:flutter_webrtc_demo/page/video_call_page.dart';
@@ -8,6 +9,7 @@ import 'package:get/get.dart';
 import '../controller/socket_service.dart';
 import '../controller/userlist_controller.dart';
 import '../helper/Chat.dart';
+import 'add_room_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -151,6 +153,9 @@ class _HomePageState extends State<HomePage> {
                             IconButton(
                               color: Colors.green,
                               onPressed: () {
+                                socketS.userName.value = '${item.username}';
+                                kLog('socketS.userName.value');
+                                kLog(socketS.userName.value);
                                 Get.to(AudioCallPage(
                                   user: item,
                                 ));
@@ -161,6 +166,8 @@ class _HomePageState extends State<HomePage> {
                             IconButton(
                               color: Colors.red,
                               onPressed: () {
+                                kLog('socketS.userName.value');
+                                kLog(socketS.userName.value);
                                 Get.to(VideoCallPage(user: item));
                               },
                               icon: Icon(Icons.video_camera_front),
@@ -196,45 +203,45 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   type: BottomNavigationBarType.fixed,
-      //   backgroundColor: Color.fromARGB(255, 190, 73, 233),
-      //   selectedItemColor: Colors.white,
-      //   unselectedItemColor: Colors.white.withOpacity(.60),
-      //   selectedFontSize: 14,
-      //   unselectedFontSize: 14,
-      //   onTap: (int value) {
-      //     setState(() {
-      //       currentIndex = value;
-      //     });
-      //     print(currentIndex);
-      //     if (currentIndex == 1) {
-      //       Get.to(() => null);
-      //     } else if (currentIndex == 2) {
-      //       Get.to(() => null);
-      //     } else if (currentIndex == 3) {
-      //       Get.to(() => AddRoomPage());
-      //     }
-      //   },
-      //   items: [
-      //     BottomNavigationBarItem(
-      //       label: 'Chats',
-      //       icon: Icon(Icons.chat_rounded),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       label: 'Audio',
-      //       icon: Icon(Icons.call_rounded),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       label: 'Video',
-      //       icon: Icon(Icons.videocam_rounded),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       label: 'Group',
-      //       icon: Icon(Icons.group_add_rounded),
-      //     ),
-      //   ],
-      // ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Color.fromARGB(255, 190, 73, 233),
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white.withOpacity(.60),
+        selectedFontSize: 14,
+        unselectedFontSize: 14,
+        onTap: (int value) {
+          setState(() {
+            currentIndex = value;
+          });
+          print(currentIndex);
+          if (currentIndex == 1) {
+            Get.to(() => null);
+          } else if (currentIndex == 2) {
+            Get.to(() => null);
+          } else if (currentIndex == 3) {
+            Get.to(() => AddRoomPage());
+          }
+        },
+        items: [
+          BottomNavigationBarItem(
+            label: 'Chats',
+            icon: Icon(Icons.chat_rounded),
+          ),
+          BottomNavigationBarItem(
+            label: 'Audio',
+            icon: Icon(Icons.call_rounded),
+          ),
+          BottomNavigationBarItem(
+            label: 'Video',
+            icon: Icon(Icons.videocam_rounded),
+          ),
+          BottomNavigationBarItem(
+            label: 'Group',
+            icon: Icon(Icons.group_add_rounded),
+          ),
+        ],
+      ),
     );
   }
 }
