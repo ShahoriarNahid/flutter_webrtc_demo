@@ -133,6 +133,7 @@ class SocketService extends Get.GetxService {
       kLog('$user : offline');
     });
 
+    //receive call
     socket.on('receive_ring', (data) async {
       var from = data['sid'].toString();
       var user = data['user'].toString();
