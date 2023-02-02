@@ -92,7 +92,9 @@ class SocketService extends Get.GetxService {
     socket = io(
         SIGNALING_SERVER_URL,
         OptionBuilder()
-            .setQuery({'user': '${userName.value}', 'room': '${room.value}'})
+            .setQuery({
+              'user': '${userName.value}',
+            })
             // .setQuery({'user': 'nahid', 'room': '1234'})
             .setTransports(['websocket'])
             .disableAutoConnect()
@@ -117,6 +119,27 @@ class SocketService extends Get.GetxService {
         sendOffer(pc, offerTo);
       }
     });
+    // Online
+    socket.on('online', (data) async {
+      var sid = data['sid'].toString();
+      var user = data['user'].toString();
+      kLog('$user : Online');
+    });
+
+    // offline
+    socket.on('offline', (data) async {
+      var sid = data['sid'].toString();
+      var user = data['user'].toString();
+      kLog('$user : offline');
+    });
+
+    socket.on('receive_ring', (data) async {
+      var from = data['sid'].toString();
+      var user = data['user'].toString();
+      var fromUser = data['fromUser'].toString();
+      var toUser = data['toUser'].toString();
+      kLog('$user : offline');
+    });
 
     // Disconnect Event
     socket.onDisconnect((data) {
@@ -129,7 +152,7 @@ class SocketService extends Get.GetxService {
       // }
     });
 
-    socket.on('data', (data) {
+    socket.on('signalling_data', (data) {
       kLog('from data');
 
       kLog(data);
@@ -139,8 +162,25 @@ class SocketService extends Get.GetxService {
     // Error Event
     socket.onError((error) => kLog(error));
 
-    kLog('Socket initialized');
+    sendRing(toSid, user) {
+      socket.emit('send_ring', {
+        'from': socket.id,
+        'to': toSid,
+        'fromUser': userName.value,
+        'toUser': user,
+      });
+    }
 
+    acceptCall(toSid, user) {
+      socket.emit('accept_call', {
+        'from': socket.id,
+        'to': toSid,
+        'fromUser': userName.value,
+        'toUser': user,
+      });
+    }
+
+    kLog('Socket initialized');
     socket.connect();
   }
 
@@ -169,7 +209,7 @@ class SocketService extends Get.GetxService {
       peerConnection.getConfiguration['id'] = id;
       peerConnections[id] = peerConnection;
       peerConnection.onIceCandidate = (candidate) {
-        socket.emit('data', {
+        socket.emit('client_data', {
           'from': socket.id,
           'to': id,
           'data': {'type': 'ice-candidate', 'candidate': candidate.toMap()}
@@ -239,7 +279,7 @@ class SocketService extends Get.GetxService {
     var offer = await pc.createOffer(offerSdpConstraints);
     await pc.setLocalDescription(offer);
     var localDescription = await pc.getLocalDescription();
-    socket.emit('data',
+    socket.emit('client_data',
         {'from': socket.id, 'to': offerTo, 'data': localDescription?.toMap()});
     kLog('Offer sent  to : $offerTo');
   }
@@ -260,7 +300,7 @@ class SocketService extends Get.GetxService {
         }
 
         var localDescription = await pc.getLocalDescription();
-        socket.emit('data', {
+        socket.emit('client_data', {
           'from': socket.id,
           'to': answerTo,
           'data': localDescription?.toMap(),
