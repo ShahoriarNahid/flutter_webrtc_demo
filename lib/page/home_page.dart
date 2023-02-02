@@ -8,8 +8,6 @@ import 'package:get/get.dart';
 import '../controller/socket_service.dart';
 import '../controller/userlist_controller.dart';
 import '../helper/Chat.dart';
-import 'add_room_page.dart';
-import 'video_calling_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -198,45 +196,45 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Color.fromARGB(255, 190, 73, 233),
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white.withOpacity(.60),
-        selectedFontSize: 14,
-        unselectedFontSize: 14,
-        onTap: (int value) {
-          setState(() {
-            currentIndex = value;
-          });
-          print(currentIndex);
-          if (currentIndex == 1) {
-            Get.to(() => null);
-          } else if (currentIndex == 2) {
-            Get.to(() => null);
-          } else if (currentIndex == 3) {
-            Get.to(() => AddRoomPage());
-          }
-        },
-        items: [
-          BottomNavigationBarItem(
-            label: 'Chats',
-            icon: Icon(Icons.chat_rounded),
-          ),
-          BottomNavigationBarItem(
-            label: 'Audio',
-            icon: Icon(Icons.call_rounded),
-          ),
-          BottomNavigationBarItem(
-            label: 'Video',
-            icon: Icon(Icons.videocam_rounded),
-          ),
-          BottomNavigationBarItem(
-            label: 'Group',
-            icon: Icon(Icons.group_add_rounded),
-          ),
-        ],
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   type: BottomNavigationBarType.fixed,
+      //   backgroundColor: Color.fromARGB(255, 190, 73, 233),
+      //   selectedItemColor: Colors.white,
+      //   unselectedItemColor: Colors.white.withOpacity(.60),
+      //   selectedFontSize: 14,
+      //   unselectedFontSize: 14,
+      //   onTap: (int value) {
+      //     setState(() {
+      //       currentIndex = value;
+      //     });
+      //     print(currentIndex);
+      //     if (currentIndex == 1) {
+      //       Get.to(() => null);
+      //     } else if (currentIndex == 2) {
+      //       Get.to(() => null);
+      //     } else if (currentIndex == 3) {
+      //       Get.to(() => AddRoomPage());
+      //     }
+      //   },
+      //   items: [
+      //     BottomNavigationBarItem(
+      //       label: 'Chats',
+      //       icon: Icon(Icons.chat_rounded),
+      //     ),
+      //     BottomNavigationBarItem(
+      //       label: 'Audio',
+      //       icon: Icon(Icons.call_rounded),
+      //     ),
+      //     BottomNavigationBarItem(
+      //       label: 'Video',
+      //       icon: Icon(Icons.videocam_rounded),
+      //     ),
+      //     BottomNavigationBarItem(
+      //       label: 'Group',
+      //       icon: Icon(Icons.group_add_rounded),
+      //     ),
+      //   ],
+      // ),
     );
   }
 }
