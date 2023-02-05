@@ -25,7 +25,7 @@ class SocketService extends Get.GetxService {
 
   final userName = Get.RxString('');
   final room = Get.RxString('');
-  MediaStream? _localStream;
+  // MediaStream? _localStream;
   final pcConfig = Get.Rx<PcConfigModel?>(null);
   final peerConnections = Map<String, RTCPeerConnection>();
   final remoteRenderer = RTCVideoRenderer();
