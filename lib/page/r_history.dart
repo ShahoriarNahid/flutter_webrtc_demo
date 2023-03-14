@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -10,9 +12,9 @@ class RHistoryPage extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Color(0xff389ae8),
-        statusBarBrightness: Brightness.dark,
-        statusBarIconBrightness: Brightness.dark,
-        systemNavigationBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarIconBrightness: Brightness.light,
         systemNavigationBarDividerColor: Colors.grey[50],
         systemNavigationBarColor: Colors.white,
       ),
@@ -26,14 +28,15 @@ class RHistoryPage extends StatelessWidget {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
         ),
-        title: Text('Recharge History'),
+        title: Text('Recharge History', style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
             onPressed: () {},
             icon: Icon(Icons.info_outline_rounded),
             iconSize: 30,
+            color: Colors.white,
           ),
           SizedBox(
             width: 8,
@@ -57,15 +60,15 @@ class RHistoryPage extends StatelessWidget {
           ),
           Container(
             width: Get.width,
-            height: 70,
+            height: 140,
             color: Colors.white,
             child: Padding(
-              padding: EdgeInsets.only(left: 15, top: 16),
+              padding: EdgeInsets.only(left: 15, top: 16, right: 15),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('09 Jan 2023 07:00 PM',
+                  Text('04 Jan 2023 11:36 AM',
                       style: TextStyle(color: Colors.black38)),
                   SizedBox(
                     height: 10,
@@ -79,12 +82,50 @@ class RHistoryPage extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        '৳109',
+                        '400',
                         style: TextStyle(fontWeight: FontWeight.w700),
                       ),
-                      SizedBox(
-                        width: 15,
-                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Emergency Balance Adjustment',
+                        style: TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                      Spacer(),
+                      Text(
+                        '- ৳14.1',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, color: Colors.red),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Divider(
+                    thickness: .5,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Net Recharge Amount',
+                        style: TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                      Spacer(),
+                      Text(
+                        '385.9',
+                        style: TextStyle(fontWeight: FontWeight.w700),
+                      ),
                     ],
                   ),
                 ],
@@ -104,7 +145,7 @@ class RHistoryPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('15 Jan 2023 09:06 PM',
+                  Text('06 Feb 2023 08:06 PM',
                       style: TextStyle(color: Colors.black38)),
                   SizedBox(
                     height: 10,
@@ -118,7 +159,7 @@ class RHistoryPage extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        '৳250',
+                        '৳550',
                         style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                       SizedBox(
@@ -130,123 +171,123 @@ class RHistoryPage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: Get.width,
-            height: 70,
-            color: Colors.white,
-            child: Padding(
-              padding: EdgeInsets.only(left: 15, top: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('07 Feb 2023 08:48 PM',
-                      style: TextStyle(color: Colors.black38)),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Recharge Amount',
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      Spacer(),
-                      Text(
-                        '৳250',
-                        style: TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: Get.width,
-            height: 70,
-            color: Colors.white,
-            child: Padding(
-              padding: EdgeInsets.only(left: 15, top: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('27 Feb 2023 10:03 PM',
-                      style: TextStyle(color: Colors.black38)),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Recharge Amount',
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      Spacer(),
-                      Text(
-                        '৳200',
-                        style: TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: Get.width,
-            height: 70,
-            color: Colors.white,
-            child: Padding(
-              padding: EdgeInsets.only(left: 15, top: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('07 Mar 2023 10:57 AM',
-                      style: TextStyle(color: Colors.black38)),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Recharge Amount',
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      Spacer(),
-                      Text(
-                        '৳41',
-                        style: TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+          // SizedBox(
+          //   height: 10,
+          // ),
+          // Container(
+          //   width: Get.width,
+          //   height: 70,
+          //   color: Colors.white,
+          //   child: Padding(
+          //     padding: EdgeInsets.only(left: 15, top: 16),
+          //     child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.start,
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: [
+          //         Text('07 Feb 2023 08:48 PM',
+          //             style: TextStyle(color: Colors.black38)),
+          //         SizedBox(
+          //           height: 10,
+          //         ),
+          //         Row(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: [
+          //             Text(
+          //               'Recharge Amount',
+          //               style: TextStyle(fontWeight: FontWeight.w500),
+          //             ),
+          //             Spacer(),
+          //             Text(
+          //               '৳250',
+          //               style: TextStyle(fontWeight: FontWeight.w700),
+          //             ),
+          //             SizedBox(
+          //               width: 15,
+          //             )
+          //           ],
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 10,
+          // ),
+          // Container(
+          //   width: Get.width,
+          //   height: 70,
+          //   color: Colors.white,
+          //   child: Padding(
+          //     padding: EdgeInsets.only(left: 15, top: 16),
+          //     child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.start,
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: [
+          //         Text('27 Feb 2023 10:03 PM',
+          //             style: TextStyle(color: Colors.black38)),
+          //         SizedBox(
+          //           height: 10,
+          //         ),
+          //         Row(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: [
+          //             Text(
+          //               'Recharge Amount',
+          //               style: TextStyle(fontWeight: FontWeight.w500),
+          //             ),
+          //             Spacer(),
+          //             Text(
+          //               '৳200',
+          //               style: TextStyle(fontWeight: FontWeight.w700),
+          //             ),
+          //             SizedBox(
+          //               width: 15,
+          //             )
+          //           ],
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 10,
+          // ),
+          // Container(
+          //   width: Get.width,
+          //   height: 70,
+          //   color: Colors.white,
+          //   child: Padding(
+          //     padding: EdgeInsets.only(left: 15, top: 16),
+          //     child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.start,
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: [
+          //         Text('07 Mar 2023 10:57 AM',
+          //             style: TextStyle(color: Colors.black38)),
+          //         SizedBox(
+          //           height: 10,
+          //         ),
+          //         Row(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: [
+          //             Text(
+          //               'Recharge Amount',
+          //               style: TextStyle(fontWeight: FontWeight.w500),
+          //             ),
+          //             Spacer(),
+          //             Text(
+          //               '৳41',
+          //               style: TextStyle(fontWeight: FontWeight.w700),
+          //             ),
+          //             SizedBox(
+          //               width: 15,
+          //             )
+          //           ],
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
